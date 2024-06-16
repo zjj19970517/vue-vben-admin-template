@@ -88,6 +88,7 @@ export default {
     breadcrumbFlatDetail: '平级详情',
     breadcrumbChildren: '层级模式',
     breadcrumbChildrenDetail: '层级详情',
+    corsRequestTest: '跨域请求测试'
   },
   flow: {
     name: '图形编辑器',
@@ -186,5 +187,5 @@ export default {
     authColumn: '权限列',
     resizeParentHeightTable: '继承父元素高度',
     vxeTable: 'VxeTable',
-  },
+  }
 };

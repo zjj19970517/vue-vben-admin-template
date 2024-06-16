@@ -1,3 +1,5 @@
+/** 公共基础路由 */
+
 import type { AppRouteRecordRaw } from '/@/router/types';
 import { t } from '/@/hooks/web/useI18n';
 import {
@@ -7,7 +9,7 @@ import {
   PAGE_NOT_FOUND_NAME,
 } from '/@/router/constant';
 
-// 404 on a page
+// 404 页面
 export const PAGE_NOT_FOUND_ROUTE: AppRouteRecordRaw = {
   path: '/:path(.*)*',
   name: PAGE_NOT_FOUND_NAME,
@@ -31,6 +33,8 @@ export const PAGE_NOT_FOUND_ROUTE: AppRouteRecordRaw = {
   ],
 };
 
+// 负责重定向的特殊路由
+// 当访问：http://localhost:5173/#/redirect/user/list --【重定向到】--> http://localhost:5173/#/user/list
 export const REDIRECT_ROUTE: AppRouteRecordRaw = {
   path: '/redirect',
   component: LAYOUT,
@@ -53,6 +57,7 @@ export const REDIRECT_ROUTE: AppRouteRecordRaw = {
   ],
 };
 
+// 错误日志记录
 export const ERROR_LOG_ROUTE: AppRouteRecordRaw = {
   path: '/error-log',
   name: 'ErrorLog',

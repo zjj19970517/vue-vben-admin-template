@@ -49,6 +49,14 @@ const feat: AppRouteModule = {
       },
     },
     {
+      path: 'cors-request',
+      name: 'CorsRequestTest',
+      component: () => import('/@/views/demo/feat/cors-request/index.vue'),
+      meta: {
+        title: t('routes.demo.feat.corsRequestTest'),
+      },
+    },
+    {
       path: 'print',
       name: 'Print',
       component: () => import('/@/views/demo/feat/print/index.vue'),
