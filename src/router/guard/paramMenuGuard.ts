@@ -9,6 +9,7 @@ import { usePermissionStoreWithOut } from '/@/store/modules/permission';
 export function createParamMenuGuard(router: Router) {
   const permissionStore = usePermissionStoreWithOut();
   router.beforeEach(async (to, _, next) => {
+    debugger
     // filter no name route
     if (!to.name) {
       next();

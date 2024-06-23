@@ -13,9 +13,9 @@
   import { useLocale } from '@/locales/useLocale';
   import 'dayjs/locale/zh-cn';
 
-  // support Multi-language
+  // 多语言支持
   const { getAntdLocale } = useLocale();
 
-  // Listening to page changes and dynamically changing site titles
+  // 监听页面变化，动态更新站点标题
   useTitle();
 </script>

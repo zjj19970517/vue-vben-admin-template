@@ -37,7 +37,7 @@ async function bootstrap() {
   // 配置路由
   setupRouter(app);
 
-  // 路由守卫
+  // 注册路由守卫
   setupRouterGuard(router);
 
   // 注册全局指令

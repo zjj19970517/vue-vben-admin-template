@@ -15,10 +15,15 @@ const ROOT_PATH = RootRoute.path;
 
 const whitePathList: PageEnum[] = [LOGIN_PATH];
 
+/**
+ * 权限守卫
+ */
 export function createPermissionGuard(router: Router) {
   const userStore = useUserStoreWithOut();
   const permissionStore = usePermissionStoreWithOut();
+
   router.beforeEach(async (to, from, next) => {
+    // 第一种特殊情况：从根路径跳转到首页
     if (
       from.path === ROOT_PATH &&
       to.path === PageEnum.BASE_HOME &&
@@ -29,47 +34,53 @@ export function createPermissionGuard(router: Router) {
       return;
     }
 
+    // 获取用户登录后 token
     const token = userStore.getToken;
 
-    // Whitelist can be directly entered
+    // 第二种特殊情况：将要打开的页面为白名单页面
     if (whitePathList.includes(to.path as PageEnum)) {
+
+      // 将要打开登录页 且 已经登录
       if (to.path === LOGIN_PATH && token) {
         const isSessionTimeout = userStore.getSessionTimeout;
-        try {
-          await userStore.afterLoginAction();
-          if (!isSessionTimeout) {
-            next((to.query?.redirect as string) || '/');
-            return;
-          }
-        } catch {
-          //
+        await userStore.afterLoginAction();
+        if (!isSessionTimeout) {
+          next((to.query?.redirect as string) || '/');
+          return;
         }
       }
+
+      // 将要打开登录页 且 未登录
       next();
       return;
     }
-    // token or user does not exist
+
+    // 第三种特殊情况：未登录
     if (!token) {
-      // You can access without permission. You need to set the routing meta.ignoreAuth to true
+      // 是否需要忽略权限验证
       if (to.meta.ignoreAuth) {
         next();
         return;
       }
 
-      // redirect login page
+      // 重定向到登录页
       const redirectData: { path: string; replace: boolean; query?: Recordable<string> } = {
         path: LOGIN_PATH,
         replace: true,
       };
       if (to.path) {
+        // 添加 query 参数，最终效果为：/login?redirect=/dashboard
         redirectData.query = {
           ...redirectData.query,
           redirect: to.path,
         };
       }
+      // 重定向到登录页
+      // 调用 next() 会继续执行导航，而不是中断它
       next(redirectData);
       return;
     }
+
 
     // Jump to the 404 page after processing the login
     if (
